@@ -40,11 +40,11 @@ public class Graph {
 	private void Visit(Vertex v, int p) {
 		v.setVisited(true);
 		v.setPredecessor(p);
-		LinkedList<AdjListNode> L = v.getAdjList();
-		for (AdjListNode node : L) {
-			int n = node.getVertexIndex();
-			if (!vertices[n].getVisited()) {
-				Visit(vertices[n], v.getIndex());
+		LinkedList<AdjListNode> L = v.getAdjList(); // L is the list of neighbors of v
+		for (AdjListNode node : L) {  // each node represents a neighbor of v
+			int n = node.getVertexIndex(); // n is the index of a neighbor of v
+			if (!vertices[n].getVisited()) { 
+				Visit(vertices[n], v.getIndex()); // recursively visit if neighbor has not been visited
 			}
 		}
 	}
