@@ -54,10 +54,17 @@ public class Graph {
 	*/
 	public void dfs() {
 		for (Vertex v : vertices)
-			v.setVisited(false);
+			v.setVisited(false); // set all vertices to unvisited
 		for (Vertex v : vertices)
 			if (!v.getVisited())
 				Visit(v, -1);
+				// -1 is the predecessor of the root vertex
+				/*
+				For each neighbor of the current vertex, 
+				the Visit method is called recursively, 
+				passing the current vertex's index (v.getIndex()) as the predecessor (p) 
+				 */
+
 	}
 
 	/**
@@ -67,26 +74,42 @@ public class Graph {
 
 
 	public void bfs() {
-		// assign each vertex to be unvisited;
+		for (Vertex v : vertices){
+			v.setVisited(false); 
+		}
   		// set up an initially empty queue of visited but unprocessed vertices;
+		LinkedList<Vertex> queue = new LinkedList<Vertex>();
   		// for each vertex v {
     	// 	if v is not visited {
       	// 		assign v to be visited;
       	// 		assign the predecessor of v;
       	// 		add v to the queue;
-      	// 		while the queue is not empty {
-        // 			remove vertex u from the queue;
-        // 			for each vertex w in the adjacency list of u {
-        // 				if w is unvisited {
-        //    					assign w to be visited;
-        //    					assign the predecessor of w;
-        //    					add w to the queue;
-        //  				}
-       	// 			}
-       	// 		}
-    	// 	}
-    	// }
+		for (Vertex v : vertices) {
+			if (!v.getVisited()) {
+				v.setVisited(true);
+				v.setPredecessor(-1);
+				queue.add(v);
+				//	while the queue is not empty 
+        		// remove vertex u from the queue;
+				while (!queue.isEmpty()) {
+					Vertex u = queue.remove();
+					LinkedList<AdjListNode> adjList = u.getAdjList();
+					 // for each vertex w in the adjacency list of u {
+						// if w is unvisited {
+						//   		assign w to be visited;
+						//   		assign the predecessor of w;
+						//   		add w to the queue;
+					for (AdjListNode node : adjList){
+						Vertex w = vertices[node.getVertexIndex()];
+						if (!w.getVisited()) {
+							w.setVisited(true);
+							w.setPredecessor(u.getIndex());
+							queue.add(w);
+						}
+					}	
+				}
+			}
+		}
 	}
-
 
 }
