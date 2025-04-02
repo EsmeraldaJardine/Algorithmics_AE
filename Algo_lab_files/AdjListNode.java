@@ -13,7 +13,7 @@ public class AdjListNode {
 		vertexIndex = n;
 	}
 
-	public int getVertexIndex(){
+	public int getVertexIndex(){ 
 		return vertexIndex;
 	}
 
