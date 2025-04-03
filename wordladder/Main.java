@@ -1,4 +1,5 @@
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.*;
 
 /**
@@ -29,9 +30,32 @@ public class Main {
 			System.exit(0);
 		}
 		System.out.println(dictionary);
+
+		//build graph of dictionary
+		/*
+		 * each word is a vertex
+		 * words that differ by one letter are adjacent and connected by an edge
+		 */
+		Graph dGraph = new Graph(dictionary.size());
+		System.out.println(dGraph.size());
+		
+		// for every word in the dictionary, find all the other words that differ by one letter
+		HashMap<String, HashSet<Character>> wordLettersSets = new HashMap<>(); // Create a map to store each word and its set of unique characters
+		// Populate the map with words and their unique characters
+		for (String word : dictionary){
+			HashSet<Character> letterCombinations = new HashSet<>();
+			
+			for (char letter : word.toCharArray()){
+				letterCombinations.add(letter);
+			}
+			wordLettersSets.put(word, letterCombinations);
+		}
+
 		if (dictionary.contains(word1) && dictionary.contains(word2)) {
 			System.out.println("words exist in dictionary");
+			System.out.println(wordLettersSets.get(word1));
 			// word ladder logic here
+			
 			
 		} else{
 			System.out.println("words do not exist in dictionary");
