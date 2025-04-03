@@ -13,6 +13,7 @@ public class Vertex {
 
     boolean visited; // whether vertex has been visited in a traversal
     int predecessor; // index of predecessor vertex in a traversal
+    private String word; // the word at the vertex
 
     /**
 	 creates a new instance of Vertex
@@ -58,6 +59,14 @@ public class Vertex {
 
     public void setPredecessor(int n){
     	predecessor = n;
+    }
+
+    public String getWord(){
+    	return word;
+    }
+
+    public void setWord(String w){
+    	word = w;
     }
 
     public void addToAdjList(int n){

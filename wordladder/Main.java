@@ -26,9 +26,9 @@ public class Main {
 				for (char c : word.toCharArray()) {
 					lettersUnorderedList.add(c);
 				}
-
 				dictionary.put(word, lettersUnorderedList);
 				}
+				
 			reader.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found: " + inputFileName);
@@ -43,13 +43,24 @@ public class Main {
 		Graph dGraph = new Graph(dictionary.size());
 		System.out.println(dGraph.size());
 
+	
 
-		dictionary.forEach((key, value) -> System.out.println(key + " " + value));
+		// add words to each vertex
+		int index = 0;
+		for (String word : dictionary.keySet()) {
+			dGraph.setVertex(index);
+			dGraph.getVertex(index).setWord(word);
+			index++;
+		}
+		// figure out adjacency list logic next
+
+
+		// dictionary.forEach((key, value) -> System.out.println(key + " " + value));
 
 		if (dictionary.containsKey(word1) && dictionary.containsKey(word2)) {
 			System.out.println("words exist in dictionary");
 			System.out.println(dictionary.get(word1));
-			// word ladder logic here
+
 		
 			
 		} else{
