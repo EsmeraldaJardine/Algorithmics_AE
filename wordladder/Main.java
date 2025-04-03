@@ -14,19 +14,14 @@ public class Main {
 		String inputFileName = args[0]; // dictionary
 		String word1 = args[1]; // first word
 		String word2 = args[2]; // second word
-		HashMap<String, List<Character>> dictionary = new HashMap<>();
+		Set<String> dictionary = new HashSet<>(); 
 		
 		// read in the data here
 		try {
 			FileReader reader = new FileReader(inputFileName);
 			Scanner inputScanner = new Scanner(reader);
 			while (inputScanner.hasNextLine()) {
-				String word = inputScanner.nextLine();
-				List<Character> lettersUnorderedList = new ArrayList<>();
-				for (char c : word.toCharArray()) {
-					lettersUnorderedList.add(c);
-				}
-				dictionary.put(word, lettersUnorderedList);
+				dictionary.add(inputScanner.nextLine());
 				}
 				
 			reader.close();
@@ -42,36 +37,37 @@ public class Main {
 		 */
 		Graph dGraph = new Graph(dictionary.size());
 		System.out.println(dGraph.size());
-
-	
-
-		// add words to each vertex
+		HashMap<String, Vertex> vertexWordMap = new HashMap<>();// map to store words and their corresponding vertices
+		
 		int index = 0;
-		for (String word : dictionary.keySet()) {
+		for (String word : dictionary) {
 			dGraph.setVertex(index);
 			dGraph.getVertex(index).setWord(word);
+			vertexWordMap.put(word, dGraph.getVertex(index)); // add word and vertex to map
+			
+			// figure out adjacency list logic next
+			// for every vertex word, compare it to every other word to see if they vary by one letter
+			// do this by iterating through each chartacter in the vertex word and ....???? not sure yet
+
+
+
 			index++;
 		}
-		// figure out adjacency list logic next
-
-
-		// dictionary.forEach((key, value) -> System.out.println(key + " " + value));
-
-		if (dictionary.containsKey(word1) && dictionary.containsKey(word2)) {
-			System.out.println("words exist in dictionary");
-			System.out.println(dictionary.get(word1));
-
 		
+		// for (Vertex v : vertexWordMap.values()) {
+		// 	System.out.println(v.getIndex() + " " + v.getWord());	
+		// }
+
+		// System.out.println(dictionary);
+		
+		if (dictionary.contains(word1) && dictionary.contains(word2)) {
+			System.out.println("words exist in dictionary");
+		;
 			
 		} else{
 			System.out.println("words do not exist in dictionary");
 		}
 
-
-
-        // create graph here
-
-		// do the work here
 
 		// end timer and print total time
 		long end = System.currentTimeMillis();
