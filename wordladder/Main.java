@@ -14,15 +14,32 @@ public class Main {
 		String inputFileName = args[0]; // dictionary
 		String word1 = args[1]; // first word
 		String word2 = args[2]; // second word
-
-		FileReader reader = new FileReader(inputFileName);
-		Scanner in = new Scanner(reader);
-
+		HashSet<String> dictionary = new HashSet<String>();
+		
 		// read in the data here
+		try {
+			FileReader reader = new FileReader(inputFileName);
+			Scanner inputScanner = new Scanner(reader);
+			while (inputScanner.hasNextLine()) {
+				dictionary.add(inputScanner.nextLine());
+				}
+			reader.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("File not found: " + inputFileName);
+			System.exit(0);
+		}
+		System.out.println(dictionary);
+		if (dictionary.contains(word1) && dictionary.contains(word2)) {
+			System.out.println("words exist in dictionary");
+			// word ladder logic here
+			
+		} else{
+			System.out.println("words do not exist in dictionary");
+		}
+
+
 
         // create graph here
-
-        reader.close();
 
 		// do the work here
 
