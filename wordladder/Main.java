@@ -14,7 +14,7 @@ public class Main {
 		String inputFileName = args[0]; // dictionary
 		String word1 = args[1]; // first word
 		String word2 = args[2]; // second word
-		HashMap<String, char[]> dictionary = new HashMap<>();
+		HashMap<String, List<Character>> dictionary = new HashMap<>();
 		
 		// read in the data here
 		try {
@@ -22,9 +22,12 @@ public class Main {
 			Scanner inputScanner = new Scanner(reader);
 			while (inputScanner.hasNextLine()) {
 				String word = inputScanner.nextLine();
-				char[] lettersArray = word.toCharArray();
+				List<Character> lettersUnorderedList = new ArrayList<>();
+				for (char c : word.toCharArray()) {
+					lettersUnorderedList.add(c);
+				}
 
-				dictionary.put(word, lettersArray);
+				dictionary.put(word, lettersUnorderedList);
 				}
 			reader.close();
 		} catch (FileNotFoundException e) {
@@ -41,7 +44,7 @@ public class Main {
 		System.out.println(dGraph.size());
 
 
-		dictionary.forEach((key, value) -> System.out.println(key + " " + Arrays.toString(value)));
+		dictionary.forEach((key, value) -> System.out.println(key + " " + value));
 
 		if (dictionary.containsKey(word1) && dictionary.containsKey(word2)) {
 			System.out.println("words exist in dictionary");
