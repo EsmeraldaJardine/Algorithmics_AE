@@ -1,5 +1,4 @@
 import java.io.*;
-import java.nio.charset.Charset;
 import java.util.*;
 
 /**
@@ -15,21 +14,23 @@ public class Main {
 		String inputFileName = args[0]; // dictionary
 		String word1 = args[1]; // first word
 		String word2 = args[2]; // second word
-		HashSet<String> dictionary = new HashSet<String>();
+		HashMap<String, char[]> dictionary = new HashMap<>();
 		
 		// read in the data here
 		try {
 			FileReader reader = new FileReader(inputFileName);
 			Scanner inputScanner = new Scanner(reader);
 			while (inputScanner.hasNextLine()) {
-				dictionary.add(inputScanner.nextLine());
+				String word = inputScanner.nextLine();
+				char[] lettersArray = word.toCharArray();
+
+				dictionary.put(word, lettersArray);
 				}
 			reader.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found: " + inputFileName);
 			System.exit(0);
 		}
-		System.out.println(dictionary);
 
 		//build graph of dictionary
 		/*
@@ -38,24 +39,15 @@ public class Main {
 		 */
 		Graph dGraph = new Graph(dictionary.size());
 		System.out.println(dGraph.size());
-		
-		// for every word in the dictionary, find all the other words that differ by one letter
-		HashMap<String, HashSet<Character>> wordLettersSets = new HashMap<>(); // Create a map to store each word and its set of unique characters
-		// Populate the map with words and their unique characters
-		for (String word : dictionary){
-			HashSet<Character> letterCombinations = new HashSet<>();
-			
-			for (char letter : word.toCharArray()){
-				letterCombinations.add(letter);
-			}
-			wordLettersSets.put(word, letterCombinations);
-		}
 
-		if (dictionary.contains(word1) && dictionary.contains(word2)) {
+
+		dictionary.forEach((key, value) -> System.out.println(key + " " + Arrays.toString(value)));
+
+		if (dictionary.containsKey(word1) && dictionary.containsKey(word2)) {
 			System.out.println("words exist in dictionary");
-			System.out.println(wordLettersSets.get(word1));
+			System.out.println(dictionary.get(word1));
 			// word ladder logic here
-			
+		
 			
 		} else{
 			System.out.println("words do not exist in dictionary");
