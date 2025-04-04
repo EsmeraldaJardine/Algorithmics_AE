@@ -40,16 +40,24 @@ public class Main {
 		HashMap<String, Vertex> vertexWordMap = new HashMap<>();// map to store words and their corresponding vertices
 		
 		int index = 0;
-		for (String word : dictionary) {
+		for (String word : dictionary) { //maybe this can be done whilst scanning the document to avoid creating the dictionary
 			dGraph.setVertex(index);
-			dGraph.getVertex(index).setWord(word);
+			dGraph.getVertex(index).setWord(word); // set the word at the vertex
 			vertexWordMap.put(word, dGraph.getVertex(index)); // add word and vertex to map
 			
 			// figure out adjacency list logic next
 			// for every vertex word, compare it to every other word to see if they vary by one letter
-			// do this by iterating through each chartacter in the vertex word and ....???? not sure yet
+			// do this by iterating through each character in the vertex word and compare it to all the words in the dictionary?
 
+			// dGraph.getVertex(index).getWord();
+			int mismatches = 0;
+			String vertexWord = dGraph.getVertex(index).getWord();
+			for (int vertexLetterIndex = 0; vertexLetterIndex < word.length(); vertexLetterIndex++) {
+				// compare the vertex word to all the other words in the dictionary/graph?
+				// maybe do a depth first search of the graph?
 
+				//	NEXT STEP : ADD WORDS DIRECTLY TO THE GRAPH AS THEY ARE READ IN
+				
 
 			index++;
 		}
@@ -59,7 +67,7 @@ public class Main {
 		// }
 
 		// System.out.println(dictionary);
-		
+
 		if (dictionary.contains(word1) && dictionary.contains(word2)) {
 			System.out.println("words exist in dictionary");
 		;
