@@ -107,8 +107,8 @@ public class Main {
 		for (String word : shortestPath.reversed()) {
 			writer.write(word + "\n");
 			}
-		writer.close();
 		}
+		writer.close();
 
 		// end timer and print total time
 		long end = System.currentTimeMillis();
