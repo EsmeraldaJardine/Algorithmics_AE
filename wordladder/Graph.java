@@ -87,14 +87,14 @@ public class Graph {
 	 */
 
 
-	public void bfs(int startIndex, int endIndex) {
+	public LinkedList<String> bfs(int startIndex, int endIndex) {
 		for (Vertex v : vertices){
 			v.setVisited(false); 
 			v.setPredecessor(-1); 	
 		}
   		// set up an initially empty queue of visited but unprocessed vertices;
 		LinkedList<Vertex> queue = new LinkedList<>();
-		LinkedList<Vertex> path = new LinkedList<>(); // to store the path from start to end vertex 
+		LinkedList<String> path = new LinkedList<>(); // to store the path from start to end vertex 
 
 		vertices[startIndex].setVisited(true); // set the start vertex to visited
 		queue.add(vertices[startIndex]); // put startVertex at the beginning of the queue
@@ -105,17 +105,20 @@ public class Graph {
 			if (u.getIndex() == endIndex) { 
 				int currentIndex = endIndex;
 				while (currentIndex != -1) {
-					path.add(vertices[currentIndex]);
+					path.add(vertices[currentIndex].getWord()); 
 					currentIndex = vertices[currentIndex].getPredecessor();  
 				}
 				System.out.println("Shortest path from " + vertices[startIndex].getWord() + " to " + vertices[endIndex].getWord() + ": ");
 				for (int i = path.size() - 1; i >= 0; i--) {
-					System.out.print(path.get(i).getWord() + " ");
+					System.out.print(path.get(i) + " "); // print the path in reverse order
 				}
+				return path; 
+
 			} // stop once target vertex is reached
+			//NEED TO ADD NO PATH LOGIC
 			
-			//iterave over all adjacent vertices (casting the recursive net)
-			
+			//iterate over all adjacent vertices (casting the recursive net)
+
 			for (AdjListNode adjNode : u.getAdjList()){
 				Vertex adjVertex = vertices[adjNode.getVertexIndex()];
 				

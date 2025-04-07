@@ -92,11 +92,11 @@ public class Main {
 		// wordladder logic
 		// find the shortest path from word1 to word2 using adjacency lists and bfs
 		// try and use the number of predecessors to find the shortest path
-		dGraph.bfs(dGraph.getIndexAtWord(word1), dGraph.getIndexAtWord(word2));
+		LinkedList<String> shortestPath = dGraph.bfs(dGraph.getIndexAtWord(word1), dGraph.getIndexAtWord(word2));
 
 
 		// print the path of predecessors
-	
+		
 
 
 
