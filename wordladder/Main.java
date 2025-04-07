@@ -1,5 +1,4 @@
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -45,12 +44,6 @@ public class Main {
 		for (String word : dictionary) { 
 			dGraph.setVertex(index, word); // set the vertex at index to the word
 			dGraph.getVertex(index).setWord(word); // set the word at the vertex
-			System.err.println("word: " + word);
-		
-			// for every vertex word, compare the string sets to every other word in the dictionary
-			// do this by iterating through each character in the vertex word and compare it to all the words in the dictionary?
-
-			// adjacency list logic - verify if string differ by one letter
 			
 			for (String comparisonWord : dictionary) {
 				int mismatches = 0;
@@ -95,6 +88,16 @@ public class Main {
 		} else{
 			System.out.println("words do not exist in dictionary");
 		}
+
+		// wordladder logic
+		// find the shortest path from word1 to word2 using adjacency lists and bfs
+		// try and use the number of predecessors to find the shortest path
+		dGraph.bfs(dGraph.getIndexAtWord(word1), dGraph.getIndexAtWord(word2));
+
+
+		// print the path of predecessors
+	
+
 
 
 		// end timer and print total time

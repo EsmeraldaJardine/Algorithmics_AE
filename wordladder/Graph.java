@@ -87,38 +87,47 @@ public class Graph {
 	 */
 
 
-	public void bfs() {
+	public void bfs(int startIndex, int endIndex) {
 		for (Vertex v : vertices){
 			v.setVisited(false); 
+			v.setPredecessor(-1); 	
 		}
   		// set up an initially empty queue of visited but unprocessed vertices;
-		LinkedList<Vertex> queue = new LinkedList<Vertex>();
-		
-		// Iterate over all vertices in the graph
-		for (Vertex v : vertices) {
-		// if not visited, set it to visited and add it to the queue
-			if (!v.getVisited()) {
-				v.setVisited(true);
-				v.setPredecessor(-1); // Set predecessor to -1 (no predecessor for root)
-				queue.add(v);
+		LinkedList<Vertex> queue = new LinkedList<>();
+		LinkedList<Vertex> path = new LinkedList<>(); // to store the path from start to end vertex 
 
-				// process the queue
-				while (!queue.isEmpty()) {
-					Vertex u = queue.remove(); // remove the first vertex from queue
-					LinkedList<AdjListNode> adjList = u.getAdjList(); // get the adjacency list of that vertex
+		vertices[startIndex].setVisited(true); // set the start vertex to visited
+		queue.add(vertices[startIndex]); // put startVertex at the beginning of the queue
 
-					//iterave over all adjacent vertices (casting the recursive net)
-					for (AdjListNode node : adjList){
-						Vertex w = vertices[node.getVertexIndex()];
-						if (!w.getVisited()) {
-							w.setVisited(true);
-							w.setPredecessor(u.getIndex());
-							queue.add(w);
-						}
-					}	
+			// process the queue
+		while (!queue.isEmpty()) {
+			Vertex u = queue.remove(); // remove the first vertex from queue
+			if (u.getIndex() == endIndex) { 
+				int currentIndex = endIndex;
+				while (currentIndex != -1) {
+					path.add(vertices[currentIndex]);
+					currentIndex = vertices[currentIndex].getPredecessor();  
+				}
+				System.out.println("Shortest path from " + vertices[startIndex].getWord() + " to " + vertices[endIndex].getWord() + ": ");
+				for (int i = path.size() - 1; i >= 0; i--) {
+					System.out.print(path.get(i).getWord() + " ");
+				}
+			} // stop once target vertex is reached
+			
+			//iterave over all adjacent vertices (casting the recursive net)
+			
+			for (AdjListNode adjNode : u.getAdjList()){
+				Vertex adjVertex = vertices[adjNode.getVertexIndex()];
+				
+				if (!adjVertex.getVisited()) {
+					adjVertex.setVisited(true);
+					adjVertex.setPredecessor(u.getIndex());
+					queue.add(adjVertex);;
 				}
 			}
 		}
 	}
-
 }
+
+
+
