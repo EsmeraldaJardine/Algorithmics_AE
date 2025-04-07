@@ -93,26 +93,21 @@ public class Graph {
 		}
   		// set up an initially empty queue of visited but unprocessed vertices;
 		LinkedList<Vertex> queue = new LinkedList<Vertex>();
-  		// for each vertex v {
-    	// 	if v is not visited {
-      	// 		assign v to be visited;
-      	// 		assign the predecessor of v;
-      	// 		add v to the queue;
+		
+		// Iterate over all vertices in the graph
 		for (Vertex v : vertices) {
+		// if not visited, set it to visited and add it to the queue
 			if (!v.getVisited()) {
 				v.setVisited(true);
-				v.setPredecessor(-1);
+				v.setPredecessor(-1); // Set predecessor to -1 (no predecessor for root)
 				queue.add(v);
-				//	while the queue is not empty 
-        		// remove vertex u from the queue;
+
+				// process the queue
 				while (!queue.isEmpty()) {
-					Vertex u = queue.remove();
-					LinkedList<AdjListNode> adjList = u.getAdjList();
-					 // for each vertex w in the adjacency list of u {
-						// if w is unvisited {
-						//   		assign w to be visited;
-						//   		assign the predecessor of w;
-						//   		add w to the queue;
+					Vertex u = queue.remove(); // remove the first vertex from queue
+					LinkedList<AdjListNode> adjList = u.getAdjList(); // get the adjacency list of that vertex
+
+					//iterave over all adjacent vertices (casting the recursive net)
 					for (AdjListNode node : adjList){
 						Vertex w = vertices[node.getVertexIndex()];
 						if (!w.getVisited()) {
