@@ -1,4 +1,5 @@
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -14,7 +15,7 @@ public class Main {
 		String inputFileName = args[0]; // dictionary
 		String word1 = args[1]; // first word
 		String word2 = args[2]; // second word
-		Set<String> dictionary = new HashSet<>(); 
+		ArrayList<String> dictionary = new ArrayList<>(); // dictionary of words
 		
 		// read in the data here
 		try {
@@ -22,51 +23,70 @@ public class Main {
 			Scanner inputScanner = new Scanner(reader);
 			while (inputScanner.hasNextLine()) {
 				dictionary.add(inputScanner.nextLine());
-				}
-				
+			}				
 			reader.close();
+			
+			System.out.println(dictionary.size());
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found: " + inputFileName);
 			System.exit(0);
 		}
+	
 
 		//build graph of dictionary
 		/*
 		 * each word is a vertex
 		 * words that differ by one letter are adjacent and connected by an edge
 		 */
-		Graph dGraph = new Graph(dictionary.size());
+		Graph dGraph = new Graph(dictionary.size(), dictionary); // create a new graph with the size of the dictionary
 		System.out.println(dGraph.size());
-		HashMap<String, Vertex> vertexWordMap = new HashMap<>();// map to store words and their corresponding vertices
 		
 		int index = 0;
-		for (String word : dictionary) { //maybe this can be done whilst scanning the document to avoid creating the dictionary
-			dGraph.setVertex(index);
+		for (String word : dictionary) { 
+			dGraph.setVertex(index, word); // set the vertex at index to the word
 			dGraph.getVertex(index).setWord(word); // set the word at the vertex
-			vertexWordMap.put(word, dGraph.getVertex(index)); // add word and vertex to map
-			
-			// figure out adjacency list logic next
-			// for every vertex word, compare it to every other word to see if they vary by one letter
+			System.err.println("word: " + word);
+		
+			// for every vertex word, compare the string sets to every other word in the dictionary
 			// do this by iterating through each character in the vertex word and compare it to all the words in the dictionary?
 
-			// dGraph.getVertex(index).getWord();
-			int mismatches = 0;
-			String vertexWord = dGraph.getVertex(index).getWord();
-			for (int vertexLetterIndex = 0; vertexLetterIndex < word.length(); vertexLetterIndex++) {
-				// compare the vertex word to all the other words in the dictionary/graph?
-				// maybe do a depth first search of the graph?
-
-				//	NEXT STEP : ADD WORDS DIRECTLY TO THE GRAPH AS THEY ARE READ IN
-				
-
+			// adjacency list logic - verify if string differ by one letter
+			
+			for (String comparisonWord : dictionary) {
+				int mismatches = 0;
+				for (int letter = 0; letter < word.length(); letter++) {
+					if (word.charAt(letter) != comparisonWord.charAt(letter)) {
+						mismatches++;
+					
+					if (mismatches == 0){
+						System.out.println("same word");
+						break;
+					}
+					if (mismatches > 1) {
+						break; 
+						}
+					}
+				}
+				if (mismatches == 1) {
+					int adjacentVertex = dGraph.getIndexAtWord(comparisonWord);
+					dGraph.getVertex(index).addToAdjList(adjacentVertex, comparisonWord); // add the adjacent vertex to the adjacency list
+				}
+				mismatches = 0; // reset mismatch
+			}
 			index++;
 		}
-		
-		// for (Vertex v : vertexWordMap.values()) {
-		// 	System.out.println(v.getIndex() + " " + v.getWord());	
-		// }
 
-		// System.out.println(dictionary);
+		// Print the adjacency list for each vertex
+		// for (int i = 0; i < dGraph.size(); i++) {
+		// 	Vertex vertex = dGraph.getVertex(i);
+		// 	System.out.print("Vertex " + vertex.getWord() + " -> ");
+		// 	for (AdjListNode adjNode : vertex.getAdjList()) {
+		// 		System.out.print(adjNode.getWord() + " ");
+		// 	}
+		// 	System.out.println();
+		// }
+		
+		
 
 		if (dictionary.contains(word1) && dictionary.contains(word2)) {
 			System.out.println("words exist in dictionary");

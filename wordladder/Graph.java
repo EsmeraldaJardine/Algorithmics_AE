@@ -1,4 +1,7 @@
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Set;
 
 /**
  class to represent an undirected graph using adjacency lists
@@ -8,17 +11,24 @@ public class Graph {
 
 	private Vertex[] vertices; // the (array of) vertices
 	private int numVertices = 0; // number of vertices
+	private HashMap<String, Integer> vertexWordMap = new HashMap<String, Integer>(); // map of words to vertex indices
 
 	// possibly other fields representing properties of the graph
 
 	/**
 	 creates a new instance of Graph with n vertices
 	*/
-	public Graph(int n) {
+	public Graph(int n, ArrayList<String> dictionary) {
 		numVertices = n;
 		vertices = new Vertex[n];
-		for (int i = 0; i < n; i++)
-			vertices[i] = new Vertex(i);
+		vertexWordMap = new HashMap<String, Integer>();
+		int index = 0;
+		for (String word : dictionary) {
+			vertices[index] = new Vertex(index, ""); // don't have string upon initialization
+			vertexWordMap.put(word, index); // map the word to the vertex index
+			index++;
+		}
+
 	}
 
 	public int size() {
@@ -29,8 +39,12 @@ public class Graph {
 		return vertices[i];
 	}
 
-	public void setVertex(int i) {
-		vertices[i] = new Vertex(i);
+	public void setVertex(int i, String w) {
+		vertices[i] = new Vertex(i, w);
+	}
+
+	public int getIndexAtWord(String w) {
+		return vertexWordMap.get(w); 
 	}
 
 	/**
