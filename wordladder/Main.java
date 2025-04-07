@@ -50,25 +50,18 @@ public class Main {
 				for (int letter = 0; letter < word.length(); letter++) {
 					if (word.charAt(letter) != comparisonWord.charAt(letter)) {
 						mismatches++;
-					
-					if (mismatches == 0){
-						System.out.println("same word");
-						break;
-					}
 					if (mismatches > 1) {
 						break; 
-						}
 					}
 				}
-				if (mismatches == 1) {
-					int adjacentVertex = dGraph.getIndexAtWord(comparisonWord);
-					dGraph.getVertex(index).addToAdjList(adjacentVertex, comparisonWord); // add the adjacent vertex to the adjacency list
+			}
+			if (mismatches == 1) {
+				int adjacentVertex = dGraph.getIndexAtWord(comparisonWord);
+				dGraph.getVertex(index).addToAdjList(adjacentVertex, comparisonWord); // add the adjacent vertex to the adjacency list
 				}
-				mismatches = 0; // reset mismatch
 			}
 			index++;
 		}
-
 		// Print the adjacency list for each vertex
 		// for (int i = 0; i < dGraph.size(); i++) {
 		// 	Vertex vertex = dGraph.getVertex(i);
@@ -81,14 +74,14 @@ public class Main {
 		
 		
 
-		if (dictionary.contains(word1) && dictionary.contains(word2)) {
-			System.out.println("words exist in dictionary");
-		;
+		if (!dictionary.contains(word1) || !dictionary.contains(word2)) {
+			System.out.println("Does not exist in dictionary");
+			System.out.println("word1 exists: " + dictionary.contains(word1));
+			System.out.println("word2 exists: " + dictionary.contains(word2));
+			System.exit(0);
 			
-		} else{
-			System.out.println("words do not exist in dictionary");
 		}
-
+		
 		// wordladder logic
 		// find the shortest path from word1 to word2 using adjacency lists and bfs
 		// try and use the number of predecessors to find the shortest path
