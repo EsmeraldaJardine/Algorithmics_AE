@@ -93,12 +93,22 @@ public class Main {
 		// find the shortest path from word1 to word2 using adjacency lists and bfs
 		// try and use the number of predecessors to find the shortest path
 		LinkedList<String> shortestPath = dGraph.bfs(dGraph.getIndexAtWord(word1), dGraph.getIndexAtWord(word2));
+		int edges = shortestPath.size() -1;
 
 
 		// print the path of predecessors
-		
-
-
+		FileWriter writer = new FileWriter("output.txt");
+		writer.write("word1 = " + word1 + "\n");
+		writer.write("word2 = " + word2 + "\n");
+		if (shortestPath.size() == 0) {
+			writer.write("no path exists\n");
+		} else {
+		writer.write("shortest word ladder of length " + edges + "\n");
+		for (String word : shortestPath.reversed()) {
+			writer.write(word + "\n");
+			}
+		writer.close();
+		}
 
 		// end timer and print total time
 		long end = System.currentTimeMillis();
