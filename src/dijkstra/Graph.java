@@ -11,11 +11,7 @@ public class Graph {
 	private int numVertices = 0; // number of vertices
 	private HashMap<String, Integer> vertexWordMap = new HashMap<String, Integer>(); // map of words to vertex indices
 
-	// possibly other fields representing properties of the graph
 
-	/**
-	 creates a new instance of Graph with n vertices
-	*/
 	public Graph(int n, ArrayList<String> dictionary) {
 		numVertices = n;
 		vertices = new Vertex[n];
@@ -84,48 +80,57 @@ public class Graph {
 	 */
 
 
-	public LinkedList<String> bfs(int startIndex, int endIndex) {
-		for (Vertex v : vertices){
-			v.setVisited(false); 
-			v.setPredecessor(-1); 	
+	public LinkedList<String> dijkstraPath(int startIndex, int endIndex) {
+		int[] dist = new int[numVertices]; 
+		boolean[] visited = new boolean[numVertices];
+		int[] pred = new int[numVertices]; // predecessor array
+		for (int i = 0; i < numVertices; i++) {
+			dist[i] = Integer.MAX_VALUE; // set all distances to infinity
+			visited[i] = false; // set all vertices to unvisited
+			pred[i] = -1; // set all predecessors to -1
 		}
-  		// set up an initially empty queue of visited but unprocessed vertices;
-		LinkedList<Vertex> queue = new LinkedList<>();
-		LinkedList<String> path = new LinkedList<>(); // to store the path from start to end vertex 
+		dist[startIndex] = 0; 
+		
+		for (int i = 0; i < numVertices - 1; i++) { 
+			int u = minDist(dist, visited); // get the vertex with the minimum distance
+			visited[u] = true; 
 
-		vertices[startIndex].setVisited(true); // set the start vertex to visited
-		queue.add(vertices[startIndex]); // put startVertex at the beginning of the queue
-
-			// process the queue
-		while (!queue.isEmpty()) {
-			Vertex u = queue.remove(); // remove the first vertex from queue
-			if (u.getIndex() == endIndex) { 
-				int currentIndex = endIndex;
-				while (currentIndex != -1) {
-					path.add(vertices[currentIndex].getWord()); 
-					currentIndex = vertices[currentIndex].getPredecessor();  
-				}
-				System.out.println("Shortest path from " + vertices[startIndex].getWord() + " to " + vertices[endIndex].getWord() + ": ");
-				for (int i = path.size() - 1; i >= 0; i--) {
-					System.out.print(path.get(i) + " "); // print the path in reverse order
-				}
-				return path; 
-
-			} // stop once target vertex is reached
-			
-			//iterate over all adjacent vertices (casting the recursive net)
-			for (AdjListNode adjNode : u.getAdjList()){
-				Vertex adjVertex = vertices[adjNode.getVertexIndex()];
-				
-				if (!adjVertex.getVisited()) {
-					adjVertex.setVisited(true);
-					adjVertex.setPredecessor(u.getIndex());
-					queue.add(adjVertex);;
+			for (AdjListNode node : vertices[u].getAdjList()) { // for each neighbor of u
+				int v = node.getVertexIndex(); // get the index of the neighbor
+				if (!visited[v] && dist[u] != Integer.MAX_VALUE && dist[u] + node.getWeight() < dist[v]) {
+					dist[v] = dist[u] + node.getWeight(); // update the distance to the neighbor
+					pred[v] = u; // update the predecessor of the neighbor
 				}
 			}
+
+
 		}
-		return path;
+		LinkedList<String> path = new LinkedList<>(); 
+		int currentIndex = endIndex; 
+		while (currentIndex != -1) { // while there are still predecessors
+			path.add(vertices[currentIndex].getWord()); // add the word to the path
+			currentIndex = pred[currentIndex]; // move to the predecessor
+			
+		}
+		return path; // return the path
+
+		
+		
 	}
+
+	public int minDist(int[] dist, boolean[] visited) {
+		int min = Integer.MAX_VALUE;
+		int minIndex = -1; 
+		for (int vertex = 0; vertex < numVertices; vertex++) {
+			if (!visited[vertex] && dist[vertex] <= min) {
+				min = dist[vertex];
+				minIndex = vertex;
+			}
+		}
+		return minIndex; 
+	}
+
+
     public int calculateEdgeWeight(char a, char b) {
 		LinkedList<Character> alphabet = new LinkedList<>();
 		for (char c = 'a'; c <= 'z'; c++) {

@@ -1,12 +1,6 @@
 package dijkstra;
 import java.io.*;
 import java.util.*;
-
-/**
- program to find word ladder with shortest distance for two words in a dictionary
- distance between elements of the word ladder is the absolute difference in the
- positions of the alphabet of the non-matching letter
- */
 public class Main {
  
 	public static void main(String[] args) throws IOException {
@@ -18,7 +12,6 @@ public class Main {
 		String word2 = args[2]; // second word
 		ArrayList<String> dictionary = new ArrayList<>(); // dictionary of words
 		
-		// read in the data here
 		try {
 			FileReader reader = new FileReader(inputFileName);
 			Scanner inputScanner = new Scanner(reader);
@@ -60,10 +53,14 @@ public class Main {
 				int adjacentVertex = dGraph.getIndexAtWord(comparisonWord);
 				int weight = dGraph.calculateEdgeWeight(word.charAt(mismatchIndex), mismatchLetter);
 				dGraph.getVertex(index).addToAdjList(adjacentVertex, comparisonWord); // add the adjacent vertex to the adjacency list
+				dGraph.getVertex(index).getAdjList().getLast().setWeight(weight); // set the weight of the edge
 				}
 			}
+
 			index++;
 		}
+
+
 		// Print the adjacency list for each vertex
 		// for (int i = 0; i < dGraph.size(); i++) {
 		// 	Vertex vertex = dGraph.getVertex(i);
@@ -84,11 +81,28 @@ public class Main {
 			
 		}
 		
-		// wordladder logic
-		// find the shortest path from word1 to word2 using adjacency lists and bfs
-		// try and use the number of predecessors to find the shortest path
-		LinkedList<String> shortestPath = dGraph.bfs(dGraph.getIndexAtWord(word1), dGraph.getIndexAtWord(word2));
-		int edges = shortestPath.size() -1;
+
+		LinkedList<String> shortestPath = dGraph.dijkstraPath(dGraph.getIndexAtWord(word1), dGraph.getIndexAtWord(word2));
+		//int edges = shortestPath.size() -1;
+		System.out.println("path: " + shortestPath);
+
+
+		int totalWeight = 0;
+		
+		for (int i = 0; i < shortestPath.size()-1; i++) {
+			String word = shortestPath.get(i);
+			int nextIndex = dGraph.getIndexAtWord(shortestPath.get(i + 1));
+			int weight  = 0;
+			for (AdjListNode node : dGraph.getVertex(dGraph.getIndexAtWord(word)).getAdjList()) {
+				if (node.getVertexIndex() == nextIndex) {
+					weight = node.getWeight();
+					break;
+				}
+			}
+			totalWeight += weight;
+			
+		}
+			
 
 
 		// print the path of predecessors
@@ -98,7 +112,7 @@ public class Main {
 		if (shortestPath.size() == 0) {
 			writer.write("no path exists\n");
 		} else {
-		writer.write("shortest word ladder of length " + edges + "\n");
+		writer.write("shortest path weight " + totalWeight + "\n");
 		for (String word : shortestPath.reversed()) {
 			writer.write(word + "\n");
 			}

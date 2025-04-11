@@ -31,4 +31,10 @@ public class AdjListNode {
 	public void setWord(String w){
 		word = w;
 	}
+	public int getWeight(){
+		return weight;
+	}
+	public void setWeight(int w){
+		weight = w;
+	}
 }
