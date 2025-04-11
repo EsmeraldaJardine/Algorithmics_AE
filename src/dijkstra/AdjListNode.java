@@ -1,3 +1,4 @@
+package dijkstra;
 /**
  class to represent an entry in the adjacency list of a vertex
  in a graph
@@ -6,7 +7,8 @@ public class AdjListNode {
 
 	private int vertexIndex;
 	private String word;
-	// could be other fields, for example representing
+    private int weight; 
+	
 	// properties of the edge - weight, capacity, ...
 
     /* creates a new instance */

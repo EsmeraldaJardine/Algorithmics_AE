@@ -1,3 +1,4 @@
+package Algo_lab_files;
 import java.io.*;
 import java.util.Scanner;
 

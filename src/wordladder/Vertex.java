@@ -1,3 +1,4 @@
+package wordladder;
 import java.util.LinkedList;
 /**
  class to represent a vertex in a graph

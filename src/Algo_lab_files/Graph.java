@@ -1,19 +1,11 @@
+package Algo_lab_files; 
 import java.util.LinkedList;
-
-/**
- class to represent an undirected graph using adjacency lists
- */
-
 public class Graph {
 
-	private Vertex[] vertices; // the (array of) vertices
-	private int numVertices = 0; // number of vertices
+	private Vertex[] vertices;
+	private int numVertices = 0; 
 
-	// possibly other fields representing properties of the graph
-
-	/**
-	 creates a new instance of Graph with n vertices
-	*/
+	
 	public Graph(int n) {
 		numVertices = n;
 		vertices = new Vertex[n];

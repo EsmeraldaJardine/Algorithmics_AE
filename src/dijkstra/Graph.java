@@ -1,3 +1,4 @@
+package dijkstra;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -80,7 +81,6 @@ public class Graph {
 
 	/**
 	 carry out a breadth first search/traversal of the graph
-	 pseudocode version
 	 */
 
 
@@ -125,6 +125,15 @@ public class Graph {
 			}
 		}
 		return path;
+	}
+    public int calculateEdgeWeight(char a, char b) {
+		LinkedList<Character> alphabet = new LinkedList<>();
+		for (char c = 'a'; c <= 'z'; c++) {
+			alphabet.add(c);
+		}
+		int indexA = alphabet.indexOf(a);
+		int indexB = alphabet.indexOf(b);
+		return indexA - indexB;
 	}
 }
 

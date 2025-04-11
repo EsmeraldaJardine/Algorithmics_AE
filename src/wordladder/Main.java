@@ -1,13 +1,13 @@
+package wordladder;
 import java.io.*;
 import java.util.*;
 
 /**
- program to find word ladder with shortest distance for two words in a dictionary
- distance between elements of the word ladder is the absolute difference in the
- positions of the alphabet of the non-matching letter
+ program to find word ladder with shortest path (i.e. minimum number edges
  */
-public class Main {
  
+public class Main {
+
 	public static void main(String[] args) throws IOException {
 
 		long start = System.currentTimeMillis();
@@ -33,6 +33,11 @@ public class Main {
 		}
 	
 
+		//build graph of dictionary
+		/*
+		 * each word is a vertex
+		 * words that differ by one letter are adjacent and connected by an edge
+		 */
 		Graph dGraph = new Graph(dictionary.size(), dictionary); // create a new graph with the size of the dictionary
 		System.out.println(dGraph.size());
 		
@@ -99,8 +104,7 @@ public class Main {
 		}
 		writer.close();
 
-
-        // end timer and print total time
+		// end timer and print total time
 		long end = System.currentTimeMillis();
 		System.out.println("\nElapsed time: " + (end - start) + " milliseconds");
 	}

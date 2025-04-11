@@ -1,19 +1,13 @@
-/**
- class to represent an entry in the adjacency list of a vertex
- in a graph
- */
+package Algo_lab_files;
 public class AdjListNode {
 
 	private int vertexIndex;
-	private String word;
-    private int weight; 
-	
+	// could be other fields, for example representing
 	// properties of the edge - weight, capacity, ...
 
     /* creates a new instance */
-	public AdjListNode(int n, String w){
+	public AdjListNode(int n){
 		vertexIndex = n;
-		word = w;
 	}
 
 	public int getVertexIndex(){ 
@@ -22,12 +16,5 @@ public class AdjListNode {
 
 	public void setVertexIndex(int n){
 		vertexIndex = n;
-	}
-
-	public String getWord(){
-		return word;
-	}
-	public void setWord(String w){
-		word = w;
 	}
 }

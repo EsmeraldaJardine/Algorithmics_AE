@@ -1,3 +1,4 @@
+package wordladder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -131,6 +132,7 @@ public class Graph {
 		}
 		return path;
 	}
+
 }
 
 
