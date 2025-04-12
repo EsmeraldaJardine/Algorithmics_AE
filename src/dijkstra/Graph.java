@@ -1,6 +1,5 @@
 package dijkstra;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 /**
@@ -8,9 +7,9 @@ import java.util.LinkedList;
  */
 public class Graph {
 
-	private Vertex[] vertices; // the (array of) vertices
-	private int numVertices = 0; // number of vertices
-	private HashMap<String, Integer> vertexWordMap = new HashMap<String, Integer>(); // map of words to vertex indices
+	private Vertex[] vertices; 
+	private int numVertices = 0; 
+	private HashMap<String, Integer> vertexWordMap = new HashMap<String, Integer>(); 
 
 
 	public Graph(int n, ArrayList<String> dictionary) {
@@ -19,8 +18,8 @@ public class Graph {
 		vertexWordMap = new HashMap<String, Integer>();
 		int index = 0;
 		for (String word : dictionary) {
-			vertices[index] = new Vertex(index, ""); // don't have string upon initialization
-			vertexWordMap.put(word, index); // map the word to the vertex index
+			vertices[index] = new Vertex(index, ""); 
+			vertexWordMap.put(word, index);
 			index++;
 		}
 
@@ -42,88 +41,67 @@ public class Graph {
 		return vertexWordMap.get(w); 
 	}
 
-	/**
-	 visit vertex v, with predecessor index p,
-	 during a depth first traversal of the graph
-	*/
 	private void Visit(Vertex v, int p) {
 		v.setVisited(true);
 		v.setPredecessor(p);
-		LinkedList<AdjListNode> L = v.getAdjList(); // L is the list of neighbors of v
-		for (AdjListNode node : L) {  // each node represents a neighbor of v
-			int n = node.getVertexIndex(); // n is the index of a neighbor of v
+		LinkedList<AdjListNode> L = v.getAdjList();
+		for (AdjListNode node : L) {  
+			int n = node.getVertexIndex();
 			if (!vertices[n].getVisited()) { 
-				Visit(vertices[n], v.getIndex()); // recursively visit if neighbor has not been visited
+				Visit(vertices[n], v.getIndex()); 
 			}
 		}
 	}
 
-	/**
-     carry out a depth first search/traversal of the graph
-	*/
 	public void dfs() {
 		for (Vertex v : vertices)
-			v.setVisited(false); // set all vertices to unvisited
+			v.setVisited(false); 
 		for (Vertex v : vertices)
 			if (!v.getVisited())
 				Visit(v, -1);
-				// -1 is the predecessor of the root vertex
-				/*
-				For each neighbor of the current vertex, 
-				the Visit method is called recursively, 
-				passing the current vertex's index (v.getIndex()) as the predecessor (p) 
-				 */
-
 	}
-
-	/**
-	 carry out a breadth first search/traversal of the graph
-	 */
-
 
 	public LinkedList<String> dijkstraPath(int startIndex, int endIndex) {
 		int[] dist = new int[numVertices]; 
 		boolean[] visited = new boolean[numVertices];
-		int[] pred = new int[numVertices]; // predecessor array
+		int[] pred = new int[numVertices];
+
 		for (int i = 0; i < numVertices; i++) {
-			dist[i] = Integer.MAX_VALUE; // set all distances to infinity
-			visited[i] = false; // set all vertices to unvisited
-			pred[i] = -1; // set all predecessors to -1
+			dist[i] = Integer.MAX_VALUE; 
+			visited[i] = false; 
+			pred[i] = -1; 
 		}
 		dist[startIndex] = 0; 
 		
 		for (int i = 0; i < numVertices - 1; i++) { 
-			int u = minDist(dist, visited); // get the vertex with the minimum distance
+			int u = minDist(dist, visited); 
 			visited[u] = true; 
 
-			for (AdjListNode node : vertices[u].getAdjList()) { // for each neighbor of u
-				int v = node.getVertexIndex(); // get the index of the neighbor
+			for (AdjListNode node : vertices[u].getAdjList()) { 
+				int v = node.getVertexIndex(); 
+
 				if (!visited[v] && dist[u] != Integer.MAX_VALUE && dist[u] + node.getWeight() < dist[v]) {
-					dist[v] = dist[u] + node.getWeight(); // update the distance to the neighbor
-					pred[v] = u; // update the predecessor of the neighbor
+					dist[v] = dist[u] + node.getWeight(); 
+					pred[v] = u; 
 				}
 			}
-
-
 		}
 		LinkedList<String> path = new LinkedList<>(); 
 		int currentIndex = endIndex; 
-		while (currentIndex != -1) { // while there are still predecessors
-			path.add(vertices[currentIndex].getWord()); // add the word to the path
-			currentIndex = pred[currentIndex]; // move to the predecessor
-			
-		}
-		Collections.reverse(path); 
-		return path; // return the path
 
-		
-		
+		while (currentIndex != -1) {
+			path.add(vertices[currentIndex].getWord()); 
+			currentIndex = pred[currentIndex]; 	
+		}
+		return path; 		
 	}
 
 	public int minDist(int[] dist, boolean[] visited) {
 		int min = Integer.MAX_VALUE;
-		int minIndex = -1; 
+		int minIndex = -1;
+
 		for (int vertex = 0; vertex < numVertices; vertex++) {
+
 			if (!visited[vertex] && dist[vertex] <= min) {
 				min = dist[vertex];
 				minIndex = vertex;
@@ -132,9 +110,9 @@ public class Graph {
 		return minIndex; 
 	}
 
-
     public int calculateEdgeWeight(char a, char b) {
 		LinkedList<Character> alphabet = new LinkedList<>();
+
 		for (char c = 'a'; c <= 'z'; c++) {
 			alphabet.add(c);
 		}

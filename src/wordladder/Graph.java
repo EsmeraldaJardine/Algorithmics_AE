@@ -10,11 +10,10 @@ import java.util.Set;
 
 public class Graph {
 
-	private Vertex[] vertices; // the (array of) vertices
-	private int numVertices = 0; // number of vertices
-	private HashMap<String, Integer> vertexWordMap = new HashMap<String, Integer>(); // map of words to vertex indices
+	private Vertex[] vertices; 
+	private int numVertices = 0; 
+	private HashMap<String, Integer> vertexWordMap = new HashMap<String, Integer>(); 
 
-	// possibly other fields representing properties of the graph
 
 	/**
 	 creates a new instance of Graph with n vertices
@@ -25,11 +24,10 @@ public class Graph {
 		vertexWordMap = new HashMap<String, Integer>();
 		int index = 0;
 		for (String word : dictionary) {
-			vertices[index] = new Vertex(index, ""); // don't have string upon initialization
-			vertexWordMap.put(word, index); // map the word to the vertex index
+			vertices[index] = new Vertex(index, ""); 
+			vertexWordMap.put(word, index); 
 			index++;
 		}
-
 	}
 
 	public int size() {
@@ -48,78 +46,50 @@ public class Graph {
 		return vertexWordMap.get(w); 
 	}
 
-	/**
-	 visit vertex v, with predecessor index p,
-	 during a depth first traversal of the graph
-	*/
 	private void Visit(Vertex v, int p) {
 		v.setVisited(true);
 		v.setPredecessor(p);
-		LinkedList<AdjListNode> L = v.getAdjList(); // L is the list of neighbors of v
-		for (AdjListNode node : L) {  // each node represents a neighbor of v
-			int n = node.getVertexIndex(); // n is the index of a neighbor of v
+		LinkedList<AdjListNode> adjacencyList = v.getAdjList();
+		for (AdjListNode node : adjacencyList) {  
+			int n = node.getVertexIndex(); 
 			if (!vertices[n].getVisited()) { 
-				Visit(vertices[n], v.getIndex()); // recursively visit if neighbor has not been visited
+				Visit(vertices[n], v.getIndex());
 			}
 		}
 	}
 
-	/**
-     carry out a depth first search/traversal of the graph
-	*/
 	public void dfs() {
 		for (Vertex v : vertices)
-			v.setVisited(false); // set all vertices to unvisited
+			v.setVisited(false); 
 		for (Vertex v : vertices)
 			if (!v.getVisited())
 				Visit(v, -1);
-				// -1 is the predecessor of the root vertex
-				/*
-				For each neighbor of the current vertex, 
-				the Visit method is called recursively, 
-				passing the current vertex's index (v.getIndex()) as the predecessor (p) 
-				 */
-
 	}
 
-	/**
-	 carry out a breadth first search/traversal of the graph
-	 pseudocode version
-	 */
-
-
-	public LinkedList<String> bfs(int startIndex, int endIndex) {
+	public LinkedList<String> wordladder(int startIndex, int endIndex) {
 		for (Vertex v : vertices){
 			v.setVisited(false); 
 			v.setPredecessor(-1); 	
 		}
-  		// set up an initially empty queue of visited but unprocessed vertices;
+  		
 		LinkedList<Vertex> queue = new LinkedList<>();
-		LinkedList<String> path = new LinkedList<>(); // to store the path from start to end vertex 
+		LinkedList<String> path = new LinkedList<>(); 
+		vertices[startIndex].setVisited(true); 
+		queue.add(vertices[startIndex]); 
 
-		vertices[startIndex].setVisited(true); // set the start vertex to visited
-		queue.add(vertices[startIndex]); // put startVertex at the beginning of the queue
-
-			// process the queue
 		while (!queue.isEmpty()) {
-			Vertex u = queue.remove(); // remove the first vertex from queue
+			Vertex u = queue.remove(); 
+
 			if (u.getIndex() == endIndex) { 
 				int currentIndex = endIndex;
+
 				while (currentIndex != -1) {
 					path.add(vertices[currentIndex].getWord()); 
 					currentIndex = vertices[currentIndex].getPredecessor();  
 				}
-				System.out.println("Shortest path from " + vertices[startIndex].getWord() + " to " + vertices[endIndex].getWord() + ": ");
-				for (int i = path.size() - 1; i >= 0; i--) {
-					System.out.print(path.get(i) + " "); // print the path in reverse order
-				}
 				return path; 
-
-			} // stop once target vertex is reached
-			//NEED TO ADD NO PATH LOGIC
+			}
 			
-			//iterate over all adjacent vertices (casting the recursive net)
-
 			for (AdjListNode adjNode : u.getAdjList()){
 				Vertex adjVertex = vertices[adjNode.getVertexIndex()];
 				

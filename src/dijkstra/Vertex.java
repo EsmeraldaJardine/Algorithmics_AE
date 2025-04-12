@@ -5,33 +5,19 @@ import java.util.LinkedList;
 */
 public class Vertex {
 
-    private LinkedList<AdjListNode> adjList ; // the adjacency list of the vertex
-    private int index; // the index of the vertex
+    private LinkedList<AdjListNode> adjList ; 
+    private int index; 
     private String word; 
+    boolean visited;
+    int predecessor; 
 
-    // stored at the node, whether the vertex has been visited
 
-    boolean visited; // whether vertex has been visited in a traversal
-    int predecessor; // index of predecessor vertex in a traversal
-
-    /**
-	 creates a new instance of Vertex
-	*/
     public Vertex(int n, String w){
     	adjList = new LinkedList<AdjListNode>();
     	index = n;
     	word = w;
     	visited = false;
     } 
-
-    /**
-	 copy constructor
-	*/
-    public Vertex(Vertex v){
-    	adjList = v.getAdjList();
-    	index = v.getIndex();
-    	visited = v.getVisited();
-    }
 
     public LinkedList<AdjListNode> getAdjList(){
         return adjList;

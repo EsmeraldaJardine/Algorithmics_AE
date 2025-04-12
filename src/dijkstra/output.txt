@@ -1,0 +1,17 @@
+word1 = cheat
+word2 = solve
+shortest path weight 96
+solve
+salve
+halve
+helve
+heave
+leave
+lease
+cease
+chase
+chasm
+charm
+chart
+chert
+cheat

@@ -9,9 +9,7 @@ public class AdjListNode {
 	private String word;
     private int weight; 
 	
-	// properties of the edge - weight, capacity, ...
-
-    /* creates a new instance */
+	
 	public AdjListNode(int n, String w){
 		vertexIndex = n;
 		word = w;
