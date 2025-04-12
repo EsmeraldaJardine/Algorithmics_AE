@@ -1,5 +1,6 @@
 package dijkstra;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 /**
@@ -112,6 +113,7 @@ public class Graph {
 			currentIndex = pred[currentIndex]; // move to the predecessor
 			
 		}
+		Collections.reverse(path); 
 		return path; // return the path
 
 		
@@ -138,7 +140,7 @@ public class Graph {
 		}
 		int indexA = alphabet.indexOf(a);
 		int indexB = alphabet.indexOf(b);
-		return indexA - indexB;
+		return Math.abs(indexA - indexB);
 	}
 }
 

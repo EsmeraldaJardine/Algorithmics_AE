@@ -93,6 +93,8 @@ public class Main {
 			String word = shortestPath.get(i);
 			int nextIndex = dGraph.getIndexAtWord(shortestPath.get(i + 1));
 			int weight  = 0;
+
+			System.out.println("Processing edge: " + word + " -> " + shortestPath.get(i + 1));
 			for (AdjListNode node : dGraph.getVertex(dGraph.getIndexAtWord(word)).getAdjList()) {
 				if (node.getVertexIndex() == nextIndex) {
 					weight = node.getWeight();
@@ -100,8 +102,10 @@ public class Main {
 				}
 			}
 			totalWeight += weight;
-			
+
+			System.out.println("Weight: " + weight);
 		}
+		System.out.println("Total weight: " + totalWeight);
 			
 
 
