@@ -46,26 +46,6 @@ public class Graph {
 		return vertexWordMap.get(w); 
 	}
 
-	private void Visit(Vertex v, int p) {
-		v.setVisited(true);
-		v.setPredecessor(p);
-		LinkedList<AdjListNode> adjacencyList = v.getAdjList();
-		for (AdjListNode node : adjacencyList) {  
-			int n = node.getVertexIndex(); 
-			if (!vertices[n].getVisited()) { 
-				Visit(vertices[n], v.getIndex());
-			}
-		}
-	}
-
-	public void dfs() {
-		for (Vertex v : vertices)
-			v.setVisited(false); 
-		for (Vertex v : vertices)
-			if (!v.getVisited())
-				Visit(v, -1);
-	}
-
 	public LinkedList<String> wordladder(int startIndex, int endIndex) {
 		for (Vertex v : vertices){
 			v.setVisited(false); 
@@ -77,6 +57,7 @@ public class Graph {
 		vertices[startIndex].setVisited(true); 
 		queue.add(vertices[startIndex]); 
 
+		// Visit the vertices in the queue until it is empty
 		while (!queue.isEmpty()) {
 			Vertex u = queue.remove(); 
 
@@ -89,7 +70,8 @@ public class Graph {
 				}
 				return path; 
 			}
-			
+			// For each adjacent vertex of u, check if it has been visited
+			// If not, mark it as visited and add it to the queue
 			for (AdjListNode adjNode : u.getAdjList()){
 				Vertex adjVertex = vertices[adjNode.getVertexIndex()];
 				
