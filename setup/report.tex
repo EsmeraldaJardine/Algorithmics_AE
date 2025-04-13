@@ -30,20 +30,61 @@ Each word in the dictionary is a vertex, an edge exists between two vertices if 
     \item \textbf{Path Construction:} 
     Each vertex stores its predecessor during the BFS. The path is reconstructed by backtracking from the end word to the start word using the predecessors. If a path is not possible, then the program reports that no ladder is possible.
 
-    \item \textbf{Efficiency Improvements:} 
+    \item \textbf{Efficiency Choices:} 
     \begin{itemize}
         \item A HashMap is used to map words to their indices in the graph, allowing for a  O(1) lookup for vertex indices.
         \item The adjacency list representation minimizes memory usage compared to an adjacency matrix because it only stores edges that exist.
-        \item BFS uses linear time complexity in relation  to the number of vertices and edges.
+        \item BFS is efficient because it explores all vertices at the current depth level before moving on. This means that the shortest path is found without unnecessary computations.
     \end{itemize}
 \end{itemize}
 
 \item[(b)]
-Here, explain how you implemented the Dijkstra’s algorithm for finding shortest paths. Include a discussion of any steps that you took to improve efficiency.
+The graph is constructed in the same way as in part (a). The only difference is that the graph is weighted.
+\begin{itemize}
+    \item \textbf{Graph Initialisation:} 
+    The graph is constructed in the same way as in part (a). The only difference is that the graph is weighted. The weight is stored in the adjacency list of the corresponding vertex.
+
+    \item \textbf{Dijkstra's Algorithm:} 
+    Dijkstra's algorithm is used to find the shortest path in the weighted graph. It starts with an array of distances initialized to "infinity" for all vertices except the starting vertex - that is set to 0. A (linked list) queue is used to choose the vertex with the smallest distance that has not been visited yet. For every selected vertex, its adjacent vertices are updated if a shorter path is found going through the current vertex.
+
+    \item \textbf{Efficiency Choices:} 
+    \begin{itemize}
+        \item The adjacency list representation minimizes memory usage by storing only existing edges.
+        \item A helper function calculates the edge weight efficiently by determining the absolute difference in positions of the mismatched letter.
+        \item The algorithm avoids repeating calculations by tracking the visited vertices and skipping them in subsequent iterations.
+    \end{itemize}
+    \item \textbf{Debugging issues:} 
+    Initially, this algorithm was only working for some of the test cases which only involved a couple letter transformations. For larger transformations, the total path weight seemed too low. It was easy to trace that the problem was in the way the edge weights were calculated. My Implementation was using signed integers to calculate the difference rather than unsigned integers. This caused the algorithm to return negative weights for some edges, making the total path weights lower than expected. 
+\end{itemize}
 \end{itemize}
 
 \section*{Empirical results}
 
-Summarise the running times of your two programs on the data sets provided. If the program fails to terminate in, say, two minutes, simply report non-termination. 
+\subsection*{Word Ladder Times:}
+\begin{itemize}
+    \item \texttt{print → paint}: 91 ms, path length 1
+    \item \texttt{forty → fifty}: 87 ms, path length 4
+    \item \texttt{cheat → solve}: 92 ms, path length 13
+    \item \texttt{worry → happy}: 74 ms, path length 12
+    \item \texttt{smile → frown}: 107 ms, path length 7
+    \item \texttt{small → large}: 91 ms, path length 16
+    \item \texttt{black → white}: 95 ms, path length 8
+    \item \texttt{greed → money}: 85 ms, no path
+\end{itemize}
+
+\subsection*{Dijkstra's Times:}
+The execution times for Dijkstra's algorithm are slightly higher than wordladder because of the added overhead of maintaining and updating distances and weights.
+\begin{itemize}
+    \item \texttt{blare → blase}: 115 ms, weight 1
+    \item \texttt{blond → blood}: 131 ms, weight 1
+    \item \texttt{allow → alloy}: 125 ms, weight 2
+    \item \texttt{cheat → solve}: 120 ms, weight 96
+    \item \texttt{worry → happy}: 113 ms, no path
+    \item \texttt{print → paint}: 113 ms, weight 17
+    \item \texttt{small → large}: 112 ms, weight 11
+    \item \texttt{black → white}: 117 ms, weight 56
+    \item \texttt{greed → money}: 113 ms, no path
+\end{itemize}
+
 
 \end{document}
