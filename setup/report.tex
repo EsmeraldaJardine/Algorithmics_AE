@@ -12,15 +12,32 @@
 
 \section*{Status report}
 
-In the event of a non-working program, this section should state clearly what happens when the program is compiled (in the case of compile-time errors) or run (in the case of run-time errors).  
+The program for both wordladder and Dijkstra's algorithm compile and appear to run correctly uin the test cases provided. 
 
-Otherwise, this section should state whether you believe that your programs are working correctly. If so, indicate the basis for your belief, if not comment on what you think might be the problem.
-
+Both programs were created without the use of AI.
 \section*{Implementation report}
 
 \begin{itemize}
 \item[(a)] 
-Here, explain how you implemented the first program for finding and printing word ladders. Include a discussion of any steps that you took to improve efficiency.
+Each word in the dictionary is a vertex, an edge exists between two vertices if their words differ by exactly one letter. The graph is represented using adjacency lists for storage and traversal.#
+\begin{itemize}
+    \item \textbf{Graph Initialisation:} 
+    The dictionary file is read and each word is added as a vertex in the graph. Each word is compared with every other word in the dictionary and if two words differ by exactly one letter, an edge is added between them in the form of adding them to each others in the adjacency list. 
+
+    \item \textbf{Shortest Path Search:} 
+    A Breadth-First Search algorithm is used to determine the shortest word ladder. BFS was used as it is ideal for unweighted graphs as it guarantees the shortest path in terms of the number of edges. The algorithm starts from the vertex belonging to the start word and marks it as visited, then adds it to a queue. It continues traversing until the end word is reached or all possibilities are used up.
+
+    \item \textbf{Path Construction:} 
+    Each vertex stores its predecessor during the BFS. The path is reconstructed by backtracking from the end word to the start word using the predecessors. If a path is not possible, then the program reports that no ladder is possible.
+
+    \item \textbf{Efficiency Improvements:} 
+    \begin{itemize}
+        \item A HashMap is used to map words to their indices in the graph, allowing for a  O(1) lookup for vertex indices.
+        \item The adjacency list representation minimizes memory usage compared to an adjacency matrix because it only stores edges that exist.
+        \item BFS uses linear time complexity in relation  to the number of vertices and edges.
+    \end{itemize}
+\end{itemize}
+
 \item[(b)]
 Here, explain how you implemented the Dijkstra’s algorithm for finding shortest paths. Include a discussion of any steps that you took to improve efficiency.
 \end{itemize}
