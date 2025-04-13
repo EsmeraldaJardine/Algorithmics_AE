@@ -41,31 +41,12 @@ public class Graph {
 		return vertexWordMap.get(w); 
 	}
 
-	private void Visit(Vertex v, int p) {
-		v.setVisited(true);
-		v.setPredecessor(p);
-		LinkedList<AdjListNode> L = v.getAdjList();
-		for (AdjListNode node : L) {  
-			int n = node.getVertexIndex();
-			if (!vertices[n].getVisited()) { 
-				Visit(vertices[n], v.getIndex()); 
-			}
-		}
-	}
-
-	public void dfs() {
-		for (Vertex v : vertices)
-			v.setVisited(false); 
-		for (Vertex v : vertices)
-			if (!v.getVisited())
-				Visit(v, -1);
-	}
-
 	public LinkedList<String> dijkstraPath(int startIndex, int endIndex) {
 		int[] dist = new int[numVertices]; 
 		boolean[] visited = new boolean[numVertices];
 		int[] pred = new int[numVertices];
 
+		// Initialize all local variables before traversing the graph
 		for (int i = 0; i < numVertices; i++) {
 			dist[i] = Integer.MAX_VALUE; 
 			visited[i] = false; 
@@ -73,13 +54,14 @@ public class Graph {
 		}
 		dist[startIndex] = 0; 
 		
+		// Traverse the graph using Dijkstra's algorithm
 		for (int i = 0; i < numVertices - 1; i++) { 
 			int u = minDist(dist, visited); 
 			visited[u] = true; 
 
 			for (AdjListNode node : vertices[u].getAdjList()) { 
 				int v = node.getVertexIndex(); 
-
+				// Check if the vertex is not visited and if the edge weight is less than the current distance
 				if (!visited[v] && dist[u] != Integer.MAX_VALUE && dist[u] + node.getWeight() < dist[v]) {
 					dist[v] = dist[u] + node.getWeight(); 
 					pred[v] = u; 
@@ -89,6 +71,7 @@ public class Graph {
 		LinkedList<String> path = new LinkedList<>(); 
 		int currentIndex = endIndex; 
 
+		// Backtrack to find the path
 		while (currentIndex != -1) {
 			path.add(vertices[currentIndex].getWord()); 
 			currentIndex = pred[currentIndex]; 	
@@ -96,6 +79,7 @@ public class Graph {
 		return path; 		
 	}
 
+	// Find the vertex with the minimum distance value
 	public int minDist(int[] dist, boolean[] visited) {
 		int min = Integer.MAX_VALUE;
 		int minIndex = -1;
@@ -109,7 +93,6 @@ public class Graph {
 		}
 		return minIndex; 
 	}
-
     public int calculateEdgeWeight(char a, char b) {
 		LinkedList<Character> alphabet = new LinkedList<>();
 

@@ -58,8 +58,4 @@ public class Vertex {
     public void addToAdjList(int n, String w){
         adjList.addLast(new AdjListNode(n, w));
     }
-
-    public int vertexDegree(){
-        return adjList.size();
-    }
 }
